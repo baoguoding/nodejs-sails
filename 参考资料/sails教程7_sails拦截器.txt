@@ -1,0 +1,25 @@
+1.过滤器（策略）/policies/sessionAuth.js
+2.在策略配置项(/config/policies.js)里为指定的controller添加指定的策略
+module.exports.policies = {  
+  testController:{
+      '*': 'sessionAuth',
+      'admin':['adminAuth']
+  }
+};
+//*表示test控制器里的所有action都会被添加上sessionAuth这个过滤器，而第二行 'admin':['adminAuth']表示为admin这个action，添加adminAuth这个过滤器，它使用[]包含，表示一个action可以有多种过滤器去修饰!
+
+如果希望所有的controller的所有action都添加某个过滤器，我们需要把策略写在外面
+module.exports.policies = { 
+    '*': 'sessionAuth',//all controller action
+};
+这种全局过滤器加上后，需要把登陆，登出这种页面排除掉，否则，你无法进行登陆页了
+module.exports.policies={ 
+    '*': 'sessionAuth',//all controller action
+    commonController:{
+        '*':true//不走全局*过滤器
+    }
+}
+
+3.controller测试            
+
+QQ群号: 168108911

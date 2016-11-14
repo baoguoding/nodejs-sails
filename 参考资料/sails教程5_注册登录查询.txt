@@ -1,0 +1,50 @@
+zhuce: function (req, res) {
+    var user = req.allParams();    
+    user.createtime=formatDate(new Date());
+     User.create(user).exec(function (err,created){    
+        if(err){
+            var errStr = err.message;
+            //console.log(errStr);
+            if(errStr.indexOf('emailuniq')>-1){
+              res.send('<script>alert("email重复");history.back();</script>');
+            }else if(errStr.indexOf('nichenguiq')>-1){
+                    res.send('<script>alert("昵称重复");history.back();</script>');
+            }
+            return;
+       }
+           res.redirect(307,'/users/login');
+      //res.send("注册成功");    
+    })    
+
+  },
+login: function (req, res) {
+    if(req.body==undefined){
+      res.view();
+    }else{
+        User.query('select uid,nicheng from user where email=? and pwd=?',[req.body['email'],req.body['pwd']],function(err,rs){    
+          //console.log('错误:'+err);    
+          //console.log(rs); 
+          if(rs.length>0){
+              loginbean = new LoginBean();    
+              loginbean.id=rs[0].uid;    
+              loginbean.nicheng = rs[0].nicheng;
+              req.session.loginbean = loginbean;
+             res.redirect('/'); 
+          }else{
+            res.send('<script>alert("email/密码错误");history.back();</script>');
+          }
+        })    
+      /*
+      User.find({email:req.body['email'],pwd:req.body['pwd']}).exec(function (err,rs){
+          console.log(err);
+          console.log(rs);
+      }); 
+      */
+      //res.send('登录');
+      
+    }
+    
+    
+  }       
+
+QQ群号: 168108911

@@ -1,0 +1,27 @@
+1.api/controllers/MainController.js
+module.exports = {
+  /**
+   * `MainController.index()`
+   */
+  index: function (req, res) {
+    loginbean = req.session.loginbean;
+    console.log(loginbean);    
+    res.view('index',{loginbean:loginbean});
+  },
+  logout:function(req,res){
+      req.session.destroy(function(err) {
+            res.redirect('/');
+        })
+  },
+};
+2.config/routes.js
+ '/': 'MainController.index'
+3.UsersController.js
+login方法中：加上
+loginbean = new LoginBean();    
+              loginbean.id=rs[0].uid;    
+              loginbean.nicheng = rs[0].nicheng;
+              req.session.loginbean = loginbean;
+             res.redirect('/');         
+
+QQ群号: 168108911

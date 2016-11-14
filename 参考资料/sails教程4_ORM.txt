@@ -1,0 +1,128 @@
+0.注意：     
+建表每个表用id做主键，如果不用id做主键，可参照视频中的方法解决问题     
+1.安装sails-mysql     
+    npm install sails-mysql --save-dev     
+2.连mysql     
+config/connection.js     
+修改:打开：     
+someMysqlServer: {     
+    adapter: 'sails-mysql',     
+    host: '127.0.0.1',     
+    user: 'root', //optional     
+    password: 'root', //optional     
+    database: 'test' //optional     
+  },     
+     
+3.修改config/models.js     
+connection: 'someMysqlServer',     
+     
+migrate: 'safe'     
+     
+safe ：假设开发人员将管理所有模式重构。    
+alter ：尽可能地在不丢失任何数据的情况下修改现有模式（这肯定存在失败的风险）。    
+drop ：从头开始创建新模式。    
+      
+     
+4.关闭服务，命令行创建model,dos下     
+D:\www\sails\blog>sails generate model article     
+在api\models下生成Article.js //只生成model     
+     
+//同时生成model和controller     
+D:\www\sails\blog>sails generate api thing        
+    
+5.创建model(api/models/User.js)    
+module.exports = {    
+  tableName: 'user',    
+  adapter: 'mysql',    
+  autoCreatedAt: false,    
+  autoUpdatedAt: false,    
+  attributes: {    
+    id:{columnName: 'uid'},email:{},pwd:{},nicheng:{},updtime:{},createtime:{},    
+  }    
+};    
+    
+6.操作(UserController中)：    
+User = require('../models/User');    
+function formatDate(date) {     
+  return date.toLocaleDateString()+' '+date.toLocaleTimeString();    
+}    
+module.exports = {    
+    
+  insertUser:function(user){    
+    user.createtime=formatDate(new Date());    
+    User.create(user).exec(function (err,created){    
+      console.log(err);    
+      console.log(created);     //返回的是创建的对象    
+    })    
+    
+    /*    
+    User.create({email:'ee',pwd:'ee',nicheng:'ee',createtime:formatDate(new Date()) }).exec(function (err,created){    
+      console.log(err);    
+      console.log(created);     //返回的是创建的对象    
+    })    
+    
+    User.query('insert into user set email=?,pwd=?,nicheng=?,createtime=current_timestamp',['gg','gg','gg'],function(err,results){    
+        console.log('错误:'+err);    
+        console.log(results);    
+    })    
+    */    
+  },    
+  updUser:function(){    
+    User.update({uid:1},{nicheng:'eee'}).exec(function (err,updated){    
+      if (err) {    
+        console.log('出错:'+err)    
+      }else{    
+        //console.log(updated)    
+      }    
+    });    
+  },    
+  /**    
+   * `UsersController.zhuce()`    
+   */    
+  zhuce: function (req, res) {    
+    var user = req.allParams();    
+    this.insertUser(user);    
+    res.send('收到email:'+req.body['email']);    
+    /*    
+    return res.json({    
+      todo: 'zhuce() is not implemented yet!'    
+    });    
+    */    
+  },    
+    
+    
+  /**    
+   * `UsersController.login()`    
+   */    
+  login: function (req, res) {    
+    //res.view('login');    
+    res.view();    
+    //res.send('login界面');    
+    /*return res.json({    
+      todo: 'login() is not implemented yet!'    
+    });    
+    */    
+  }    
+};    
+   
+  //----------删除----------------   
+  delUser:function(req,res){   
+    User.query('delete from user where id=?',[1],function(err,rs){   
+      console.log(rs);   
+    })   
+    res.send('ok');   
+  }  
+  
+方法列表：  
+//-----------------orm方法---------------------  
+create():创建一个记录  
+findOne({username:'jy'}):                //返回第一个对象  
+find({username:'jy'}):                      //返回一个数组  
+count({username:'jy'}):                     //返回结果为一个该结果集的条数  
+destroy({name:'Flynn'})：                //销毁找到的结果，麻烦，建议不用  
+findOrCreate({username:'jy'},{username:'jyjy'})：//查询是否有第一个参数的记录，没有就创建第二个参数的记录  
+update({username:'jy'},{username:'jyjy'})：    //修改记录  
+query：    用于直接调用底层的数据库驱动程序,如：直接使用原生的sql语句,适用于mysql或者相关的数据库  
+native:只适用于使用mongodb的情况,返回mongodb的对象直接操作数据库
+
+QQ群号: 168108911
