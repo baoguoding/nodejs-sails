@@ -1,0 +1,14 @@
+1.命令行生成路由： 
+//user为controller名,zhuce和login是方法名 
+sails generate controller user zhuce login  
+2. 渲染页面:
+module.exports={ 
+  hello:function(req,res){ 
+    res.send('hello man!!!'); 
+  }, 
+  login:function(req,res){ 
+    res.view({data:{name:'login'}});    //该方式会默认去找views/user/login.ejs文件 
+    //res.view('hello',{data:{name:'test123'}});//指定页面views/hello.ejs 
+  } 
+}            
+QQ群号: 168108911
