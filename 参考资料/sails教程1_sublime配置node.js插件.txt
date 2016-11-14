@@ -1,0 +1,27 @@
+插件下载地址：https://github.com/tanepiper/SublimeText-Nodejs
+1.打开sublime,点Preferences-->浏览程序包Browse Packages,弹出包路径，把I:\tools\sublime插件\node.js插件\SublimeText-Nodejs-master文件夹拷贝到包路径里
+
+2.修改编译选项，在package目录下的nodejs目录中，打开Nodejs.sublime-build，两个地方修改：
+"encoding": "cp936",
+"windows":
+    {
+        "cmd": ["taskkill","/F", "/IM", "node.exe",">","node", "$file"]
+    },
+修改成如下：
+"file_regex": "^[ ]*File \"(...*?)\", line ([0-9]*)",
+  "selector": "source.js",
+  "shell":true,
+  "encoding": "cp936",
+  "windows":
+    {
+        "cmd": ["taskkill","/F", "/IM", "node.exe",">","node", "$file"]  
+    },
+  "linux":
+    {
+        "cmd": ["killall node; node", "$file"]
+    }
+}
+
+3.保存重启后写个node.js，ctrl+b编译运行
+
+4.终止：tools/cancel Build    
