@@ -41,17 +41,33 @@ module.exports = {
         })
 
         var keyword = req.query['keyword'];
+        //----- 分页----------
+        page = 1;
+        if(req.query['page']!=undefined){
+            page = parseInt(req.query['page']);
+            if(page<1){
+                page=1;
+            }
+        }
+        pageSize = 2;
+        pointStart = (page-1)*pageSize;
+        count=0;
+        countPage=0;
 
-        //cl.SetLimits(pointStart, pageSize);
+        //----- 分页----------
+        cl.SetLimits(pointStart, pageSize);
         cl.Query(keyword,'question',function(err, result) {
-            req.matches=result['matches'];
-            req.total = result['total'];              //总共查出多少条
-            //req.page = page;
-            //countPage = Math.ceil(req.total/pageSize);
-            //req.countPage=countPage;
+            if(result!=null){
+                req.matches=result['matches'];
+                req.total = result['total'];              //总共查出多少条
+                req.page = page;
+                countPage = Math.ceil(req.total/pageSize);
+                req.countPage=countPage;
 
-            QuestionController.search(req,res);
-
+                QuestionController.search(req,res);
+            }else{
+                res.redirect("/");
+            }
         } );
     }
 };

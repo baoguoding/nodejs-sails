@@ -59,6 +59,12 @@
                 }
                 keys=keys+strArr[i] + "|";
             }
+
+            if(keys == ''){
+                alert("填写查询条件");
+                return;
+            }
+
             searchForm.keyword.value = keys;
             searchForm.submit();
         }
@@ -78,9 +84,15 @@
     <div style="float:right;line-height:2em;">
         <table>
             <tr>
+                <%
+                    var searchkey='';
+                    if(req.query['keyword'] !== undefined){
+                        searchkey = req.query['keyword'];
+                    }
+                  %>
                 <form name="searchForm" method="get" action="/main/search">
                 <td>
-                    <input type="text" name="searchkey"  placeholder="请输入关键词" style="width:240px;height:30px;" >
+                    <input type="text" name="searchkey"  placeholder="请输入关键词" style="width:240px;height:30px;" value="<%=searchkey%>">
                     <input type="hidden" name="keyword"/>
                 </td>
                 <td>

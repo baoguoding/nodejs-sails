@@ -182,16 +182,20 @@ module.exports = {
     search:function(req, res){
         var matches = req.matches;
 
-        for(var i=0; i<matches.length; i++){
+        var rsArr = new Array(); //结果集数组
+        var ii = 0;
+        var len = matches.length;
+        for(var i=0; i<len; i++){
             var qid = matches[i].id;
             Question.query('select qid,title,looknum,renum,finished,updtime,createtime from question where qid=?',[qid],function(err,rs){
-                console.log('qid:'+rs[0].title);
+                rsArr.push(rs[0]);
+                ii++;
+                if(ii == len){
+                    var loginbean = req.session.loginbean;
+                    res.view('search', {loginbean:loginbean,page:req.page,rs:rsArr,count:req.total,countPage:req.countPage});
+                }
             })
         }
-
-        res.send("ok");
-
-
 
     }
 
