@@ -1,0 +1,68 @@
+1.解压:L:\tools\php\sphinx\coreseek\coreseek-3.2.14-win32.zip,拷贝到L:\coreseek(改名)  
+2.打开：L:\coreseek\etc\csft_mysql.conf文件  
+source qqgroup  
+{  
+    type                    = mysql  
+    sql_host                = localhost  
+    sql_user                = root  
+    sql_pass                = root  
+    sql_db                    = test  
+    sql_port                = 3306  
+    sql_query_pre            = SET NAMES utf8  
+    sql_query_pre       = SET SESSION query_cache_type=OFF #禁用查询缓冲，提高查询速度  
+  
+    sql_query                = select groupid,keyword from qqgroup  
+  
+  
+    sql_query_info_pre      = SET NAMES utf8                                        #命令行查询时，设置正确的字符集  
+    sql_query_info            = SELECT * FROM qqgroup WHERE groupid=$id  #在调试的时候，我们一般需要返回表中的字段，那这个时候，就需要使用sql_query_info。  
+    ## 同时这个字段只在控制台有效，在api中是无效的。  
+}  
+  
+#index定义  
+index qqgroup  
+{  
+    source            = qqgroup             #对应的source名称  
+    path            = /usr/local/coreseek/var/data/qqgroup/qqgroup #请修改为实际使用的绝对路径，例如：/usr/local/coreseek/var/...  
+    docinfo            = extern #定义文档信息的存储模式，extern表示文档信息和文档id分开存储  
+    mlock            = 0  
+    morphology        = none  
+    min_word_len        = 1  
+    html_strip                = 0  
+  
+    #中文分词配置，详情请查看：http://www.coreseek.cn/products-install/coreseek_mmseg/  
+    #charset_dictpath = /usr/local/mmseg3/etc/ #BSD、Linux环境下设置，/符号结尾,默认/usr/local/mmseg3/etc/uni.lib所在位置  
+    charset_dictpath = /usr/local/mmseg3/etc/ #Windows环境下设置，/符号结尾，最好给出绝对路径，例如：C:/usr/local/coreseek/etc/...  
+    charset_type        = zh_cn.utf-8  
+}  
+  
+#全局index定义  
+indexer  
+{  
+    mem_limit            = 128M  
+}  
+  
+#searchd服务定义  
+searchd  
+{  
+    listen                  =   9312  
+    read_timeout        = 5  
+    max_children        = 30  
+    max_matches            = 1000  
+    seamless_rotate        = 0  
+    preopen_indexes        = 0  
+    unlink_old            = 1  
+    mva_updates_pool   = 1M    # MVA更新池大小，这个参数不太明白  
+    pid_file = /usr/local/coreseek/var/log/searchd_jobs.pid  #请修改为实际使用的绝对路径，例如：/usr/local/coreseek/var/...  
+    log = /usr/local/coreseek/var/log/searchd_jobs.log        #请修改为实际使用的绝对路径，例如：/usr/local/coreseek/var/...  
+    query_log = /usr/local/coreseek/var/log/query_jobs.log #请修改为实际使用的绝对路径，例如：/usr/local/coreseek/var/...  
+}  
+  
+3.在Coreseek根目录(L:\coreseek)输入cmd命令  
+bin\indexer -c etc\csft_mysql.conf --all  #生成全部索引  
+  
+bin\indexer -c etc\csft_mysql.conf question #只生成question索引  
+  
+
+
+QQ群号: 168108911

@@ -178,6 +178,21 @@ module.exports = {
 
             res.redirect('../detail?qid='+req.body['qid']);
         });
+    },
+    search:function(req, res){
+        var matches = req.matches;
+
+        for(var i=0; i<matches.length; i++){
+            var qid = matches[i].id;
+            Question.query('select qid,title,looknum,renum,finished,updtime,createtime from question where qid=?',[qid],function(err,rs){
+                console.log('qid:'+rs[0].title);
+            })
+        }
+
+        res.send("ok");
+
+
+
     }
 
 };

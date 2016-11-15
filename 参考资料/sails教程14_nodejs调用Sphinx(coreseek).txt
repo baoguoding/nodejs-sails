@@ -1,0 +1,47 @@
+1.项目根目录下安装：npm install sphinxapi --save-dev (必须是node.js项目)
+2. 启动Sphinx服务器:
+L:\coreseek>bin\searchd -c etc\csft_mysql.conf
+3.建一个js文件test.js
+SphinxClient = require ("sphinxapi"),
+util = require('util'),
+assert = require('assert');
+
+var cl = new SphinxClient();
+cl.SetServer('localhost', 9312);
+cl.Status(function(err, result) {
+        assert.ifError(err);
+        console.log(util.inspect(result, false, null, true));
+})
+
+cl.Query('（这里自己写搜索词）','mysql(是索引的名字)',function(err, result) {
+        assert.ifError(err);
+        console.log(util.inspect(result, false, null, true));
+} );
+
+    
+for(var key in result['matches']){
+    console.log(key+':===:'+result['matches'][key].id);
+}
+
+//---------分页---------------
+cl.SetLimits(pagePoint, pageSize);
+
+//----------------------例----------------------
+search:function(req,res){
+      SphinxClient = require ("sphinxapi");
+      util = require('util');
+      assert = require('assert');
+      var cl = new SphinxClient();
+      cl.SetServer('localhost', 9312);
+
+      cl.Status(function(err, result) {
+              //assert.ifError(err);
+              //console.log(util.inspect(result, false, null, true));
+      })
+
+      var keyword = req.query['keyword'];
+      if(keyword==undefined||keyword==''){
+          res.redirect('/');
+      }
+
+QQ群号: 168108911

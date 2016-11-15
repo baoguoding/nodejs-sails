@@ -31,7 +31,8 @@ module.exports.policies = {
     '*':'sessionAuth',
     MainController:{
       'index':true,
-      'logout':true
+      'logout':true,
+      'search':true
     },
     UsersController:{
         'zhuce':true,

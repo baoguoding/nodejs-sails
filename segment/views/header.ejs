@@ -48,6 +48,21 @@
             color:#ffffff;
         }
     </style>
+    <script>
+        function search(){
+            var str = searchForm.searchkey.value;
+            var strArr = str.split(' ');
+            var keys = '';
+            for(var i=0; i<strArr.length;i++){
+                if(strArr[i] === ' '){
+                    continue;
+                }
+                keys=keys+strArr[i] + "|";
+            }
+            searchForm.keyword.value = keys;
+            searchForm.submit();
+        }
+    </script>
 </head>
 <body>
 <div style="width:1024px;height:3em;margin:1em auto">
@@ -63,14 +78,17 @@
     <div style="float:right;line-height:2em;">
         <table>
             <tr>
+                <form name="searchForm" method="get" action="/main/search">
                 <td>
-                    <input type="text"  placeholder="请输入关键词" style="width:240px;height:30px;" >
+                    <input type="text" name="searchkey"  placeholder="请输入关键词" style="width:240px;height:30px;" >
+                    <input type="hidden" name="keyword"/>
                 </td>
                 <td>
                     &nbsp;
-                    <span class="glyphicon glyphicon-zoom-in" style="font-size:1.5em;cursor:pointer;"/>
+                    <span class="glyphicon glyphicon-zoom-in" style="font-size:1.5em;cursor:pointer;" onclick="search();"/>
                     &nbsp;&nbsp;
                 </td>
+                </form>
                 <% if(loginbean==undefined){ %>
                 <td>
                     <input type="button" id="loginBtn" class="btn btn-success" data-toggle="modal" href="/users/login" data-target="#loginModal" value="登录/注册"/>
