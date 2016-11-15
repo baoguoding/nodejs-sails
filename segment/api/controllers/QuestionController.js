@@ -144,6 +144,41 @@ module.exports = {
         }else{
             res.send('没传入qid');
         }
+    },
+    reply:function(req,res){
+        loginbean = req.session.loginbean;
+        sql1 = 'insert into replies (qid,content,uid,nicheng) value(?,?,?,?)';
+        param1=[req.body['qid'],req.body['content'],loginbean.id,loginbean.nicheng];
+        sql2='update question set renum=renum+1 where qid=?';
+        param2=[req.body['qid']];
+        async.series({
+            one: function(callback){
+                Question.query('BEGIN',function(err,rs){
+                    callback(err,rs);
+                }) //启动事物
+            },
+            two: function(callback){
+                Question.query(sql1,param1,function(err,rs){
+                    callback(err, rs);
+                })
+            },
+            three:function(callback){
+                Question.query(sql2,param2,function(err,rs){
+                    callback(err, rs);
+                })
+            }
+        },function(err, results) {
+            if(err){
+                Question.query('ROLLBACK');
+                res.send('<script>alert("回复失败，稍后重试");history.back();</script>');
+                //res.redirect('../detail?qid='+req.body['qid']);
+                return;
+            }
+            Question.query('COMMIT');
+
+            res.redirect('../detail?qid='+req.body['qid']);
+        });
     }
+
 };
 
