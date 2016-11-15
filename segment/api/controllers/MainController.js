@@ -23,6 +23,9 @@ module.exports = {
         req.session.destroy(function(err) {
             res.redirect('/');
         })
+    },
+    test:function(req,res){
+        res.send("我是test页面");
     }
 };
 

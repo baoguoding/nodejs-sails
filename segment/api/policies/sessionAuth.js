@@ -11,11 +11,13 @@ module.exports = function(req, res, next) {
 
   // User is allowed, proceed to the next policy, 
   // or if this is the last policy, the controller
-  if (req.session.authenticated) {
+  if (req.session.loginbean) {
     return next();
   }
 
   // User is not allowed
   // (default res.forbidden() behavior can be overridden in `config/403.js`)
-  return res.forbidden('You are not permitted to perform this action.');
+  //return res.forbidden('Please login first!');
+
+    res.send("<script>alert('请登录后进入');location.href='/';</script>");
 };

@@ -28,6 +28,17 @@ module.exports.policies = {
 
   // '*': true,
 
+    '*':'sessionAuth',
+    MainController:{
+      'index':true,
+      'logout':true
+    },
+    UsersController:{
+        'zhuce':true,
+        'login':true
+    }
+
+
   /***************************************************************************
   *                                                                          *
   * Here's an example of mapping some policies to run before a controller    *
