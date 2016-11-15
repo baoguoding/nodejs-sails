@@ -1,0 +1,42 @@
+1.QuestionController.js中:
+queList:function(req,res){
+      page = 1;
+            if(req.query['page']!=undefined){
+                page = parseInt(req.query['page']);
+                if(page<1){
+                    page=1;
+                }
+            }
+            pageSize = 2;
+            pointStart = (page-1)*pageSize;
+            count=0;
+            countPage=0;
+            async.series({
+                one: function(callback){
+                        Question.count({}).exec(function (err,rs){
+                            count=rs;
+                            countPage = Math.ceil(count/pageSize);
+                            if(page>countPage){
+                                page=countPage;
+                                pointStart = (page-1)*pageSize;
+                                param = [pointStart,pageSize];
+                            }
+                  callback(null, rs);
+              }); 
+                },
+                two: function(callback){
+                     Question.query('select qid,title,looknum,renum,finished,updtime,createtime from question order by qid desc limit ?,?',[pointStart,pageSize],function(err,rs){    
+          
+         callback(null, rs);   
+             })
+          
+                }
+            },function(err, results) {
+                //console.log(results);
+                var loginbean = req.session.loginbean;
+                 rs=results['two'];
+                res.view('index', {loginbean:loginbean,page:page,rs:rs,count:count,countPage:countPage});
+            });
+  } 
+
+QQ群号: 168108911

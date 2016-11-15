@@ -5,6 +5,7 @@
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
 
+QuestionController = require("./QuestionController");
 
 
 module.exports = {
@@ -17,7 +18,8 @@ module.exports = {
     index: function (req, res) {
         loginbean = req.session.loginbean;
         console.log(loginbean);
-        res.view('index',{loginbean:loginbean});
+        QuestionController.queList(req, res);
+        //res.view('index',{loginbean:loginbean});
     },
     logout:function(req,res){
         req.session.destroy(function(err) {

@@ -36,6 +36,10 @@ module.exports.policies = {
     UsersController:{
         'zhuce':true,
         'login':true
+    },
+    QuestionController:{
+        'queList':true,
+        'detail':true
     }
 
 

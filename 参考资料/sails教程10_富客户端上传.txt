@@ -1,0 +1,40 @@
+1.xheditor中添加重要一行：    
+var $j = jQuery.noConflict(); //释放 jQuery 对 $ 变量的控制       
+2.QuestionController.js中：  
+Question = require('../models/Question');
+var async = require('async'); 
+var multiparty = require('multiparty');
+var fs = require('fs');
+ 
+  uploadImg:function(req,res){ 
+      req.file('filedata').upload({ 
+          dirname: '../public/images/upload/' 
+      },function (err, uploadedFiles){ 
+      if (err){ 
+          console.log(err); 
+          res.send('{"err":"上传错误","msg":""}'); 
+      } 
+ 
+      console.log(uploadedFiles); 
+      var tmpPath = uploadedFiles[0].fd;  //上传临时文件url 
+      var pathArr = tmpPath.split('\\'); 
+      console.log(pathArr[9]); 
+      var uploadurl = '../../images/upload/'+pathArr[9]; 
+      console.log(uploadedFiles[0].size); 
+      console.log(uploadedFiles[0].filename); 
+        var savePath = './assets/images/upload/'+pathArr[9]; 
+        var fileReadStream = fs.createReadStream(tmpPath);  
+        var fileWriteStream = fs.createWriteStream(savePath);  
+        fileReadStream.pipe(fileWriteStream); //管道流  
+        fileWriteStream.on('close',function(){  
+               //fs.unlinkSync(tmpPath);    //删除临时文件夹中的图片  
+               console.log('copy over');   
+               res.send('{"err":"","msg":"'+uploadurl+'"}');  
+        }); 
+      //res.send('{"err":"","msg":"'+uploadurl+'"}'); 
+      //return res.ok; 
+    }) 
+    //return res.ok; 
+  }
+
+QQ群号: 168108911

@@ -80,7 +80,8 @@ module.exports = {
                     loginbean.id=rs[0].uid;
                     loginbean.nicheng = rs[0].nicheng;
                     req.session.loginbean = loginbean;
-                    res.redirect('/');
+                    //res.redirect('/');
+                    res.redirect(req.body["targeturl"]);
                 }else{
                     res.send('<script>alert("email/密码错误");history.back();</script>');
                 }
