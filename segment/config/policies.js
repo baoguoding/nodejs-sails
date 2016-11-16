@@ -41,6 +41,10 @@ module.exports.policies = {
     QuestionController:{
         'queList':true,
         'detail':true
+    },
+    UserMemcacheController:{
+        'zhuce':true,
+        'login':true
     }
 
 
