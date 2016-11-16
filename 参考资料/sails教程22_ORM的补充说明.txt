@@ -1,0 +1,13 @@
+models/User.js
+module.exports = {
+  connection:"someMongodbServer", //持久化到mongodb里
+  tableName: 'user',
+  adapter: 'mysql',
+  autoCreatedAt: false,
+  autoUpdatedAt: false,
+  attributes: {
+    id:{columnName: 'uid'},email:{},pwd:{},nicheng:{},updtime:{},createtime:{},
+  }
+};    
+
+QQ群号: 168108911

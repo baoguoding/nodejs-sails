@@ -1,0 +1,66 @@
+1.连接redis
+驱动连接：npm install redis --save-dev
+sails连接：npm install sails-redis --save-dev
+redis:{
+    adapter:'sails-redis',
+    user: 'cnect',
+    password: 'pass',
+    host: 'localhost',
+    port: '6379',
+    database: 'mydb'
+}
+2.连接sqlserver:
+驱动连接：nmp install msnodesql --save-dev
+安装之前必须安装SQL Server Native Client 11.0 32位 或 64位
+sails连接：
+    npm install sails-sqlserver --save-dev
+    sqlserver: {
+        adapter: 'sails-sqlserver',
+        user: 'cnect',
+        password: 'pass',
+        host: 'localhost' // azure database
+        database: 'mydb',
+        options: {
+          encrypt: true   // use this for Azure databases
+        }
+      }
+3.连oracle
+驱动连接：npm install oracledb --save-dev
+sails连接：npm install sails-oracle --save-dev
+
+4.连Memcached(是一个高性能的分布式内存对象缓存系统)
+1.双击：D:\tools\memcached\memcached1_2(jb51.net)\memcached-1.2.1-win32\memcached.exe
+打开监听端口,默认:11211
+
+2.安装memcached插件
+npm install memcached --save-dev
+
+3.UserController.js
+var nMemcached = require('memcached');
+
+function formatDate(date) {      
+  return date.toLocaleDateString()+' '+date.toLocaleTimeString();     
+}  
+module.exports = {  
+  zhuce: function (req, res) { 
+    memcached = new nMemcached("127.0.0.1:11211" );
+    memcached.set("hello",'quqiufeng@gmail.com' , 0, function( err, result ){
+      if( err ) console.error( err );
+      console.log( result );
+      res.send(result);
+      memcached.end(); 
+    });
+    
+  }, 
+  login: function (req, res) { 
+        memcached = new nMemcached("127.0.0.1:11211" );
+        memcached.get("hello", function( err, result ){
+          if( err ) console.error( err );
+          console.log(result );
+          res.send(result);
+          memcached.end();
+        });
+    } 
+  };      
+
+QQ群号: 168108911
