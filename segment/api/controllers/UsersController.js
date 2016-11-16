@@ -17,7 +17,7 @@ module.exports = {
         user.createtime=formatDate(new Date());
         User.create(user).exec(function (err,created){
             console.log(err);
-            console.log(created);     //返回的是创建的对象
+            //console.log(created);     //返回的是创建的对象
         })
 
         /*

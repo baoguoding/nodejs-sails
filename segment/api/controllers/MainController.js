@@ -19,7 +19,7 @@ module.exports = {
      */
     index: function (req, res) {
         loginbean = req.session.loginbean;
-        console.log(loginbean);
+        //console.log(loginbean);
         QuestionController.queList(req, res);
         //res.view('index',{loginbean:loginbean});
     },

@@ -23,12 +23,12 @@
                     总共<%=count%>条记录,
                     第<%=page%>/<%=countPage%>页,
                     <% if(page!=1){%>
-                    <a href="/main/search?page=1&keyword=<%req.query['keyword']%>">首页</a>&nbsp;
-                    <a href="/main/search?page=<%=(page-1)%>&keyword=<%req.query['keyword']%>">上一页</a>&nbsp;
+                    <a href="/main/search?page=1&keyword=<%=req.query['keyword']%>&searchkey=<%=req.query['searchkey']%>">首页</a>&nbsp;
+                    <a href="/main/search?page=<%=(page-1)%>&keyword=<%=req.query['keyword']%>&searchkey=<%=req.query['searchkey']%>">上一页</a>&nbsp;
                     <% } %>
                     <% if(page!=countPage) {%>
-                    <a href="/main/search?page=<%=(page+1)%>&keyword=<%req.query['keyword']%>">下一页</a>&nbsp;
-                    <a href="/main/search?page=<%=countPage%>&keyword=<%req.query['keyword']%>">尾页</a>
+                    <a href="/main/search?page=<%=(page+1)%>&keyword=<%=req.query['keyword']%>&searchkey=<%=req.query['searchkey']%>">下一页</a>&nbsp;
+                    <a href="/main/search?page=<%=countPage%>&keyword=<%=req.query['keyword']%>&searchkey=<%=req.query['searchkey']%>">尾页</a>
                     <%}%>
                 </td>
             </tr>

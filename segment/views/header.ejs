@@ -54,10 +54,10 @@
             var strArr = str.split(' ');
             var keys = '';
             for(var i=0; i<strArr.length;i++){
-                if(strArr[i] === ' '){
+                if(strArr[i] === ''){
                     continue;
                 }
-                keys=keys+strArr[i] + "|";
+                keys += strArr[i] + "|";
             }
 
             if(keys == ''){
@@ -86,8 +86,8 @@
             <tr>
                 <%
                     var searchkey='';
-                    if(req.query['keyword'] !== undefined){
-                        searchkey = req.query['keyword'];
+                    if(req.query['searchkey'] != undefined){
+                        searchkey = req.query['searchkey'];
                     }
                   %>
                 <form name="searchForm" method="get" action="/main/search">

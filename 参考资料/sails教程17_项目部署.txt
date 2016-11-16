@@ -1,0 +1,6 @@
+1.改端口
+config/local.js中第63行，打开注释
+port: process.env.PORT || 80,        //改为80端口
+2.assets下创建html文件夹，所有静态html文件都可放到里面，浏览器上用/html/date.html访问                    
+
+QQ群号: 168108911

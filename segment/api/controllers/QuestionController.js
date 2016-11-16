@@ -88,21 +88,21 @@ module.exports = {
                 res.send('{"err":"上传错误","msg":""}');
             }
 
-            console.log(uploadedFiles);
+            //console.log(uploadedFiles);
             var tmpPath = uploadedFiles[0].fd;  //上传临时文件url
             var pathArr = tmpPath.split('\\');
             var newFileName = pathArr[pathArr.length - 1];
-            console.log(newFileName);
+            //console.log(newFileName);
             var uploadurl = '../../images/upload/'+newFileName;
-            console.log(uploadedFiles[0].size);
-            console.log(uploadedFiles[0].filename);
+            //console.log(uploadedFiles[0].size);
+            //console.log(uploadedFiles[0].filename);
             var savePath = './assets/images/upload/'+newFileName;
             var fileReadStream = fs.createReadStream(tmpPath);
             var fileWriteStream = fs.createWriteStream(savePath);
             fileReadStream.pipe(fileWriteStream); //管道流
             fileWriteStream.on('close',function(){
                 //fs.unlinkSync(tmpPath);    //删除临时文件夹中的图片
-                console.log('copy over');
+                //console.log('copy over');
                 res.send('{"err":"","msg":"'+uploadurl+'"}');
             });
             //res.send('{"err":"","msg":"'+uploadurl+'"}');
